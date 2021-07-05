@@ -17,13 +17,17 @@ function Divide(x, y) {
   return x / y;
 }
 
-function MathOperation(arg1, arg2, operation) {
+function CallMathOperation() {
   arg1 = Number(prompt("Введите первое число: "));
   arg2 = Number(prompt("Введите второе число: "));
   operation = prompt(
     "Введите операцию: Sum, Subtract, Divide или Multiplicate"
   );
 
+  MathOperation(arg1, arg2, operation);
+}
+
+function MathOperation(arg1, arg2, operation) {
   switch (operation) {
     case "Sum":
       alert(Sum(arg1, arg2));
