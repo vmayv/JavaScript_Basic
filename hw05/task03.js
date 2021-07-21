@@ -21,15 +21,15 @@ function CreateChessBoardWithPics() {
   table.border = 1;
 
   for (var i = 1; i < 10; i++) {
-    var tr = document.createElement("tr");
+    var tr = document.createElement("tr"); // создаём строки
     for (var j = 1; j < 10; j++) {
-      var td = document.createElement("td");
+      var td = document.createElement("td"); // создаём столбцы
       td.style.backgroundColor = whiteBoardColor;
-      if (i === 9 && j > 1) {
+      if (i === 9 && j > 1) { // строка с буквенными именованием
         td.innerText = `${literals[j - 2]}`;
         td.style.backgroundColor = whiteColor;
       }
-      if (i < 9 && j === 1) {
+      if (i < 9 && j === 1) { // строка с численным именованием
         td.innerText = `${9 - i}`;
         td.style.backgroundColor = whiteColor;
       }
