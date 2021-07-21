@@ -4,6 +4,8 @@ function CreateChessBoard() {
   var task3 = document.getElementById("Задание 3");
   var table = document.createElement("table");
   var isBlack = false;
+  var whiteBoardColor = "#ABABAB";
+  var blackBoardColor = "#797979";
   table.title = "Шахматная доска";
   table.border = 1;
 
@@ -11,14 +13,22 @@ function CreateChessBoard() {
     var tr = document.createElement("tr");
     for (var j = 1; j < 10; j++) {
       var td = document.createElement("td");
+      td.style.backgroundColor = whiteBoardColor;
       if (i === 9 && j > 1) {
         td.innerText = `${literals[j - 2]}`;
+        td.style.backgroundColor = "white";
       }
       if (i < 9 && j === 1) {
         td.innerText = `${9 - i}`;
+        td.style.backgroundColor = "white";
       }
-      if (j > 1 && i < 9 && !isBlack) { // разобраться!!! написал и сам не понял!!
-        td.style.backgroundColor = "black";
+      if (j > 1 && i < 9 && !isBlack) {
+        // разобраться!!! написал и сам не понял!!
+        td.style.backgroundColor = blackBoardColor;
+      }
+      if (i === 9 && j === 1) {
+        // угловой нижний элемент делаем белым
+        td.style.backgroundColor = "white";
       }
       td.width = 30;
       td.height = 30;
