@@ -1,7 +1,6 @@
 function CreateChessBoard() {
   var literals = ["A", "B", "C", "D", "E", "F", "G", "H"];
   var task2 = document.getElementById("Задание 2");
-  var task3 = document.getElementById("Задание 3");
   var table = document.createElement("table");
   var isBlack = false;
   var whiteBoardColor = "#ABABAB";

@@ -1,11 +1,14 @@
-function CreateChessBoardWithFigures() {
+function CreateChessBoardWithPieces() {
   var literals = ["A", "B", "C", "D", "E", "F", "G", "H"];
-  var task2 = document.getElementById("Задание 2");
+  var pieces = ["Л", "К", "С", "Ф", "Кр", "С", "К", "Л"];
+  var pawn = "П";
   var task3 = document.getElementById("Задание 3");
   var table = document.createElement("table");
   var isBlack = false;
   var whiteBoardColor = "#ABABAB";
   var blackBoardColor = "#797979";
+  var whiteColor = "white";
+  var blackColor = "black";
   table.title = "Шахматная доска";
   table.border = 1;
 
@@ -16,11 +19,11 @@ function CreateChessBoardWithFigures() {
       td.style.backgroundColor = whiteBoardColor;
       if (i === 9 && j > 1) {
         td.innerText = `${literals[j - 2]}`;
-        td.style.backgroundColor = "white";
+        td.style.backgroundColor = whiteColor;
       }
       if (i < 9 && j === 1) {
         td.innerText = `${9 - i}`;
-        td.style.backgroundColor = "white";
+        td.style.backgroundColor = whiteColor;
       }
       if (j > 1 && i < 9 && !isBlack) {
         // разобраться!!! написал и сам не понял!!
@@ -28,11 +31,27 @@ function CreateChessBoardWithFigures() {
       }
       if (i === 9 && j === 1) {
         // угловой нижний элемент делаем белым
-        td.style.backgroundColor = "white";
+        td.style.backgroundColor = whiteColor;
       }
-      if ((i === 2 || i === 7) && j > 1) {
-        td.innerText = "П";
+      if (i === 2 && j > 1) {
+        td.innerText = pawn;
+        td.style.color = blackColor;
         td.align = "center";
+      }
+      if (i === 7 && j > 1) {
+        td.innerText = pawn;
+        td.style.color = whiteColor;
+        td.align = "center";
+      }
+      if (i === 1 && j > 1) {
+        td.innerText = pieces[j - 2];
+        td.style.color = blackColor;
+        td.align = "center";
+      }
+      if (i === 8 && j > 1) {
+        td.innerText = pieces[j - 2];
+        td.align = "center";
+        td.style.color = whiteColor;
       }
       td.width = 30;
       td.height = 30;
