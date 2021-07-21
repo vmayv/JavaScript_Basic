@@ -16,10 +16,12 @@ function CreateChessBoard() {
       if (i === 9 && j > 1) { // строка с буквенными именованием
         td.innerText = `${literals[j - 2]}`;
         td.style.backgroundColor = "white";
+        td.align = "center";
       }
       if (i < 9 && j === 1) { // строка с численным именованием
         td.innerText = `${9 - i}`;
         td.style.backgroundColor = "white";
+        td.align = "center";
       }
       if (j > 1 && i < 9 && isBlack) { // через один красим в чёрный
         td.style.backgroundColor = blackBoardColor;
