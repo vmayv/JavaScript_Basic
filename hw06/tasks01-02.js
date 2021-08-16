@@ -1,5 +1,5 @@
-var store = {
-  basket: [],
+const store = {
+  basket: {},
   items: [
     {
       type: "clothes",
@@ -52,42 +52,45 @@ var store = {
   ],
 
   AddToBasket: function (item) {
-    // if (this.items.leftInStock === 0) {
-    //   alert("Нет на складе!");
-    //   return;
-    // }
+    if (item.leftInStock === 0) {
+      alert("Нет на складе!");
+      return;
+    }
 
-    // if (!this.items.inBasket) {
-    //   this.items.inBasket = true;
-    // }
-    // this.items.leftInStock -= 1;
-    // this.items.countInBasket += 1;
+    if (!store.basket[item.article]) {
+      store.basket[item.article] = 0;
+    }
 
-    store.basket.push(item);
+    item.leftInStock -= 1;
+    store.basket[item.article] += 1
+    renderBasket();
+
   },
 
-  RemoveFromBasket: function () {
-    if (this.inBasket && this.countInBasket > 0) {
-      this.countInBasket -= 1;
-      this.leftInStock += 1;
+  RemoveFromBasket: function (item) {
+    console.log(item);
+    // if (this.inBasket && this.countInBasket > 0) {
+    //   this.countInBasket -= 1;
+    //   this.leftInStock += 1;
 
-      if (this.countInBasket === 0) {
-        this.inBasket = false;
-      }
-    }
+    //   if (this.countInBasket === 0) {
+    //     this.inBasket = false;
+    //   }
+    // }
+    renderBasket();
   },
 
   BasketPrice: function () {
-    var count = 0;
-    for (var i = 0; i < this.items.length; i++) {
+    const count = 0;
+    for (let i = 0; i < this.items.length; i++) {
       count += this.items[i].price;
     }
     alert("Общая стоимость корзины: " + count);
   },
 
   PrintItems: function () {
-    var result = "";
-    for (var i = 0; i < this.items.length; i++) {
+    const result = "";
+    for (let i = 0; i < this.items.length; i++) {
       result = result + this.items.name + " ";
     }
     alert(result);
@@ -95,10 +98,10 @@ var store = {
 };
 
 function renderItems() {
-  var items = document.querySelector("#items-container");
-  var ul = document.createElement("ul");
+  const items = document.querySelector("#items-container");
+  const ul = document.createElement("ul");
 
-  for (var i = 0; i < store.items.length; i++) {
+  for (let i = 0; i < store.items.length; i++) {
     const li = document.createElement("li");
     li.style.marginBottom = "20px";
 
@@ -127,14 +130,54 @@ function renderItems() {
     span.appendChild(button);
     li.appendChild(span);
     ul.appendChild(li);
-    
+
   }
   items.appendChild(ul);
 
-  var buttons = document.querySelectorAll("#AddToBasket");
-  for (var i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener("click", () => store.AddToBasket(store.items[i]));
+  const buttons = document.querySelectorAll("#AddToBasket");
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", () => {
+      const item = store.items[i];
+      store.AddToBasket(item);
+    });
   }
 
 }
+
+function renderBasket() {
+  const items = document.querySelector("#basket-container");
+
+  const ul = document.createElement("ul");
+  const basketEntries = Object.entries(store.basket);
+
+  if (basketEntries.length > 0) {
+    ul.style.border = '2px green solid';
+    ul.style.backgroundColor = 'lightblue';
+  }
+
+  for (let i = 0; i < basketEntries.length; i++) {
+    const [article, count] = basketEntries[i];
+    const item = store.items.filter(e => e.article === article)[0];
+
+    const li = document.createElement("li");
+    li.style.marginBottom = "20px";
+    li.style.borderBottom = "2px solid black";
+
+    const spanContainer = document.createElement("span");
+    spanContainer.innerText = `${item.article} ${item.category} ${item.brand} - ${count}- ${count * item.price}`;
+
+    const removeButton = document.createElement("button");
+    removeButton.style.float = 'right'
+    removeButton.addEventListener("click", () => store.RemoveFromBasket(item));
+    removeButton.textContent = 'x';
+
+    li.appendChild(spanContainer);
+    li.appendChild(removeButton);
+    ul.appendChild(li);
+  }
+
+  items.replaceChild(ul, items.firstChild);
+}
+
 renderItems();
+renderBasket();
