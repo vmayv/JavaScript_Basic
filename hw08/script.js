@@ -1,11 +1,13 @@
 const GAME_STATUS_STARTED = 'started';
-const GAME_STATUS_PAUSED  = 'paused';
+const GAME_STATUS_PAUSED = 'paused';
 const GAME_STATUS_STOPPED = 'stopped';
 
 const SNAKE_DIRECTION_UP = 'up';
 const SNAKE_DIRECTION_DOWN = 'down';
 const SNAKE_DIRECTION_LEFT = 'left';
 const SNAKE_DIRECTION_RIGHT = 'right';
+
+let SCORE = 0;
 
 /**
  * Объект с настройками конфигурации игры
@@ -60,6 +62,13 @@ const game = {
         /* добавить сюда код */
     },
 
+
+    addScore() {
+        element = document.getElementById("score-value");
+        SCORE += 1;
+        element.innerText = SCORE;
+    },
+
     /**
      * Функция выполняет передвижение змейки по полю.
      *
@@ -109,6 +118,8 @@ const game = {
 
             /* перерендериваем еду */
             food.render();
+
+            game.addScore();
         } else {
             /* если индекс не найден, то просто устанавливаем новую координату для змейки */
             snake.setPosition(nextPosition);
@@ -130,7 +141,7 @@ const game = {
         // обратить внимание, как сделать красивее
         element.classList.remove(GAME_STATUS_STARTED, GAME_STATUS_PAUSED, GAME_STATUS_STOPPED);
         element.classList.add(status);
-    }
+    },
 };
 
 /**
@@ -158,7 +169,7 @@ const board = {
         const board = this.getElement();
 
         /* рисуем на странице 20*20 клеток */
-        for (let i = 0; i < config.size**2; i++) {
+        for (let i = 0; i < config.size ** 2; i++) {
             const cell = document.createElement('div');
             cell.classList.add('cell');
 
@@ -176,7 +187,7 @@ const board = {
  * Объект, представляющий клетку на поле.
  */
 const cells = {
-    
+
 
     /**
      * Функция ищет HTML элементы клеток на странице.
@@ -264,7 +275,7 @@ const snake = {
 
         /* в зависимости от текущего положения
          * высчитываем значение от верхней и левой границы */
-        switch(this.direction) {
+        switch (this.direction) {
             case SNAKE_DIRECTION_UP:
                 position.top -= 1;
                 break;
