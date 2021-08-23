@@ -58,15 +58,23 @@ const game = {
      */
     stop() {
         this.setGameStatus(GAME_STATUS_STOPPED);
-
-        /* добавить сюда код */
+        alert(`Игра окончена! Счёт: ${SCORE}`);
+        game.dropScore();
+        board.render();
+        snake.reset();
     },
 
 
     addScore() {
-        element = document.getElementById("score-value");
+        let element = document.getElementById("score-value");
         SCORE += 1;
         element.innerText = SCORE;
+    },
+
+    dropScore() {
+        let element = document.getElementById("score-value");
+        SCORE = 0;
+        element.innerText = 0;
     },
 
     /**
@@ -99,6 +107,10 @@ const game = {
         /* устанавливаем позицию для змейки
          * и запрашиваем координаты следующей позиции */
         snake.setDirection(direction);
+        if (snake.isCrashed()) {
+            game.stop();
+            return;
+        }
         const nextPosition = snake.getNextPosition();
 
         /* проверяем совпадает ли следующая позиция с какой-нибудь едой */
@@ -167,7 +179,7 @@ const board = {
      */
     render() {
         const board = this.getElement();
-
+        board.innerHTML = "";
         /* рисуем на странице 20*20 клеток */
         for (let i = 0; i < config.size ** 2; i++) {
             const cell = document.createElement('div');
@@ -311,6 +323,15 @@ const snake = {
         return position;
     },
 
+    isCrashed() {
+        for (let i = 1; i <= this.parts.length; i++) {
+            if(this.parts[i].top === this.parts.at(-1).top && this.parts[i].left === this.parts.at(-1).left) {
+                return true;
+            }
+        }
+        return false;
+    },
+
     /**
      * Функция устанавливает позицию для змейки.
      *
@@ -336,7 +357,17 @@ const snake = {
      */
     render() {
         cells.renderItems(this.parts, 'snake');
-    }
+    },
+
+    reset() {
+        this.direction = SNAKE_DIRECTION_RIGHT;
+        this.parts = [
+            { top: 0, left: 0 },
+            { top: 0, left: 1 },
+            { top: 0, left: 2 },
+        ]
+
+    },
 };
 
 /**
