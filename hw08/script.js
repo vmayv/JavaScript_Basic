@@ -324,8 +324,9 @@ const snake = {
     },
 
     isCrashed() {
-        for (let i = 1; i <= this.parts.length; i++) {
-            if(this.parts[i].top === this.parts.at(-1).top && this.parts[i].left === this.parts.at(-1).left) {
+        const position = this.getNextPosition();
+        for (let i = 1; i < this.parts.length; i++) {
+            if(this.parts[i].top === position.top && this.parts[i].left === position.left) {
                 return true;
             }
         }
