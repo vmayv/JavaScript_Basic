@@ -119,16 +119,17 @@ const store = {
       const spanContainer = document.createElement("span");
       spanContainer.innerText = `${item.article} ${item.category} ${item.brand} - ${count}- ${count * item.price}`;
 
-      const removeButton = document.createElement("button");
-      removeButton.style.float = 'right'
-      removeButton.addEventListener("click", () => store.RemoveFromBasket(item));
-      removeButton.textContent = 'x';
 
       li.appendChild(spanContainer);
-      li.appendChild(removeButton);
       ul.appendChild(li);
     }
-
+    const goToBasket = document.createElement('button');
+    goToBasket.innerText = 'Перейти к корзине';
+    goToBasket.onclick = () => {
+      localStorage.setItem('store', JSON.stringify(store));
+      document.location.href = 'basket.html';
+    }
+    ul.appendChild(goToBasket)
     items.replaceChild(ul, items.firstChild);
   },
 
@@ -146,19 +147,6 @@ const store = {
     store.basket[item.article] += 1
     store.renderBasket();
 
-  },
-
-  RemoveFromBasket: function (item) {
-    console.log(item);
-    // if (this.inBasket && this.countInBasket > 0) {
-    //   this.countInBasket -= 1;
-    //   this.leftInStock += 1;
-
-    //   if (this.countInBasket === 0) {
-    //     this.inBasket = false;
-    //   }
-    // }
-    store.renderBasket();
   },
 
   BasketPrice: function () {
